@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Projekat_Sudoku
 {
@@ -88,6 +89,63 @@ Izaberite tezinu: ");
                 Console.WriteLine("nije dobro");
                 System.Threading.Thread.Sleep(1700);
                 goto pocetak;
+            }
+        }
+
+        static void Upis(int[,] tabla, bool[,] otvoreno )
+        {
+            string[] uneto = Console.ReadLine().ToUpper().Split(' ');
+            int srca = 3;
+            int hint = 3;
+            Dictionary<char, int> slova = new Dictionary<char, int>();
+            slova.Add('A', 0);
+            slova.Add('B', 1);
+            slova.Add('C', 2);
+            slova.Add('D', 3);
+            slova.Add('E', 4);
+            slova.Add('F', 5);
+            slova.Add('G', 6);
+            slova.Add('H', 7);
+            slova.Add('I', 8);
+
+            if (uneto[0]=="HINT")
+            {
+                //natalija
+            }
+
+            else if(uneto[0]=="KRAJ")
+            {
+               return;
+            }
+
+            else
+            {
+                char[] koordinate = uneto[0].ToCharArray();
+                int j = slova[koordinate[0]]; //kolona
+                int i = koordinate[1]; //vrsta
+
+                /*
+                if (otvoreno)
+                {
+                    //kazi mu d JE GLUP
+                }
+                */
+                if(1==1) //else
+                {
+                    if (tabla[i, j] == int.Parse(uneto[1]))
+                    {
+                        //otvoriti polje
+                        otvoreno[i, j] = true;
+
+                    }
+                    else
+                    {
+                        //glup si
+                        srca--;
+
+                        if (srca == 0) return; //mnogo si glup ispisi
+                    }
+                }
             }
         }
     }
