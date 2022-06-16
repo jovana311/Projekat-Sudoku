@@ -130,6 +130,7 @@ Izaberite tezinu: ");
                             Console.Write(tabla[i, j] + " ");
                         Console.WriteLine();
                     }
+                    return;
                 }
                 else if (opcija == "2")
                 {
@@ -140,6 +141,7 @@ Izaberite tezinu: ");
                             Console.Write(tabla[i, j] + " ");
                         Console.WriteLine();
                     }
+                    return;
                 }
                 else if (opcija == "3")
                 {
@@ -150,6 +152,7 @@ Izaberite tezinu: ");
                             Console.Write(tabla[i, j] + " ");
                         Console.WriteLine();
                     }
+                    return;
                 }
                 else
                 {
