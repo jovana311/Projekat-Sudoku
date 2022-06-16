@@ -48,6 +48,7 @@ namespace Projekat_Sudoku
                         tabla[a, b] = i;
                         xevi.Remove(xevi[x]);
                         yi.Remove(yi[y]);
+                    //za kvadratice cemo dodati da se uklone svi indexi u tom kvadraticu
                 }
                 xevi.Add(0);
                 xevi.Add(1);
@@ -123,6 +124,7 @@ Izaberite tezinu: ");
                 }
                 else if (opcija == "1")
                 {
+                    Console.WriteLine("TEZINA: lako");
                     Console.Clear();
                     for (int i = 0; i < 9; i++)
                     {
@@ -130,10 +132,10 @@ Izaberite tezinu: ");
                             Console.Write(tabla[i, j] + " ");
                         Console.WriteLine();
                     }
-                    return;
                 }
                 else if (opcija == "2")
                 {
+                    Console.WriteLine("TEZINA: ne tako lako");
                     Console.Clear();
                     for (int i = 0; i < 9; i++)
                     {
@@ -141,10 +143,10 @@ Izaberite tezinu: ");
                             Console.Write(tabla[i, j] + " ");
                         Console.WriteLine();
                     }
-                    return;
                 }
                 else if (opcija == "3")
                 {
+                    Console.WriteLine("TEZINA: nije lako");
                     Console.Clear();
                     for (int i = 0; i < 9; i++)
                     {
@@ -152,7 +154,6 @@ Izaberite tezinu: ");
                             Console.Write(tabla[i, j] + " ");
                         Console.WriteLine();
                     }
-                    return;
                 }
                 else
                 {
