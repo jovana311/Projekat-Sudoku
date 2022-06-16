@@ -41,9 +41,6 @@ namespace Projekat_Sudoku
             {
                 for (int j = 1; j < 10; j++) //koliko tog broja je ubaceno
                 {
-                    if (tabla[xevi[x], yi[y]] == 0)
-                    {
-                        Console.WriteLine("a");
                         x = Random.Next(0, xevi.Count);
                         y = Random.Next(0, yi.Count);
                         int a = xevi[x];
@@ -51,9 +48,6 @@ namespace Projekat_Sudoku
                         tabla[a, b] = i;
                         xevi.Remove(xevi[x]);
                         yi.Remove(yi[y]);
-                    }
-                    else j--;
-
                 }
                 xevi.Add(0);
                 xevi.Add(1);
@@ -74,8 +68,6 @@ namespace Projekat_Sudoku
                 yi.Add(7);
                 yi.Add(8);
             }
-
-
 
 
         //POCETNI MENI
@@ -132,17 +124,32 @@ Izaberite tezinu: ");
                 else if (opcija == "1")
                 {
                     Console.Clear();
-                    Console.WriteLine("lako");
+                    for (int i = 0; i < 9; i++)
+                    {
+                        for (int j = 0; j < 9; j++)
+                            Console.Write(tabla[i, j] + " ");
+                        Console.WriteLine();
+                    }
                 }
                 else if (opcija == "2")
                 {
                     Console.Clear();
-                    Console.WriteLine("ne tako lako");
+                    for (int i = 0; i < 9; i++)
+                    {
+                        for (int j = 0; j < 9; j++)
+                            Console.Write(tabla[i, j] + " ");
+                        Console.WriteLine();
+                    }
                 }
                 else if (opcija == "3")
                 {
                     Console.Clear();
-                    Console.WriteLine("nije lako");
+                    for (int i = 0; i < 9; i++)
+                    {
+                        for (int j = 0; j < 9; j++)
+                            Console.Write(tabla[i, j] + " ");
+                        Console.WriteLine();
+                    }
                 }
                 else
                 {
