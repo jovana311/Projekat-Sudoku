@@ -8,11 +8,78 @@ namespace Projekat_Sudoku
         static void Main(string[] args)
         {
             //GENERISANJE TABLE
+            
+            int[,] kvadratic = new int[3, 3];
+            int[,] tabla = new int[9, 9];
+
+            List<int> xevi = new List<int>();
+            List<int> yi = new List<int>();
+            xevi.Add(0);
+            xevi.Add(1);
+            xevi.Add(2);
+            xevi.Add(3);
+            xevi.Add(4);
+            xevi.Add(5);
+            xevi.Add(6);
+            xevi.Add(7);
+            xevi.Add(8);
+            yi.Add(0);
+            yi.Add(1);
+            yi.Add(2);
+            yi.Add(3);
+            yi.Add(4);
+            yi.Add(5);
+            yi.Add(6);
+            yi.Add(7);
+            yi.Add(8);
+
+            Random Random = new Random(); //generise random broj koji je random
+            int x = Random.Next(0, xevi.Count);
+            int y = Random.Next(0, yi.Count);
+
+            for (int i = 1; i < 10; i++) //koji broj se trenutno ubacuje
+            {
+                for (int j = 1; j < 10; j++) //koliko tog broja je ubaceno
+                {
+                    if (tabla[xevi[x], yi[y]] == 0)
+                    {
+                        Console.WriteLine("a");
+                        x = Random.Next(0, xevi.Count);
+                        y = Random.Next(0, yi.Count);
+                        int a = xevi[x];
+                        int b = yi[y];
+                        tabla[a, b] = i;
+                        xevi.Remove(xevi[x]);
+                        yi.Remove(yi[y]);
+                    }
+                    else j--;
+
+                }
+                xevi.Add(0);
+                xevi.Add(1);
+                xevi.Add(2);
+                xevi.Add(3);
+                xevi.Add(4);
+                xevi.Add(5);
+                xevi.Add(6);
+                xevi.Add(7);
+                xevi.Add(8);
+                yi.Add(0);
+                yi.Add(1);
+                yi.Add(2);
+                yi.Add(3);
+                yi.Add(4);
+                yi.Add(5);
+                yi.Add(6);
+                yi.Add(7);
+                yi.Add(8);
+            }
 
 
 
-            //POCETNI MENI
-            pocetak:
+
+        //POCETNI MENI
+        pocetak:
             Console.Clear();
             Console.Write(@"
 █████████████████████████████████████████████████████████████████████████████████████████████
