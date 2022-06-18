@@ -5,12 +5,88 @@ namespace Projekat_Sudoku
 {
     class Program
     {
+
+        static void Ispis(int[,] tabla, bool[,] otvoreno, int srca, int hint, string tezina, int maxhint)
+        {
+            
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.Write("\n   TEZINA: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(tezina + "\n");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("     A  B  C   D  E  F   G  H  I");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("   -------------------------------");
+            Console.ForegroundColor = ConsoleColor.White;
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    if (j == 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write(" " + (i + 1) + " ");
+                    }
+                    if (j % 3 == 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write("|");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    if (otvoreno[i, j]) Console.Write(" " + tabla[i, j] + " ");
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.Write(" . ");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    if (j == 8)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write("|");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                }
+                if (i == 2 || i == 5)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine("\n   |---------+---------+----------");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else Console.WriteLine();
+            }
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("   -------------------------------");
+
+            Console.Write("\n   Hintovi: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(hint);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("/" + maxhint);
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.Write("   Greske: ");
+            Console.ForegroundColor = ConsoleColor.White;
+            for (int i = 0; i < 3 - srca; i++) Console.Write("X ");
+            for (int i = 0; i < srca; i++)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write("♥ "); 
+            }
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("   Unesite polje i broj koji zelite da upisete: ");
+        }
+
         static void Main(string[] args)
         {
             //GENERISANJE TABLE
             
             int[,] kvadratic = new int[3, 3];
             int[,] tabla = new int[9, 9];
+            bool[,] otvoreno = new bool[9, 9];
+            int srca = 3;
 
             List<int> xevi = new List<int>();
             List<int> yi = new List<int>();
@@ -41,13 +117,13 @@ namespace Projekat_Sudoku
             {
                 for (int j = 1; j < 10; j++) //koliko tog broja je ubaceno
                 {
-                        x = Random.Next(0, xevi.Count);
-                        y = Random.Next(0, yi.Count);
-                        int a = xevi[x];
-                        int b = yi[y];
-                        tabla[a, b] = i;
-                        xevi.Remove(xevi[x]);
-                        yi.Remove(yi[y]);
+                    x = Random.Next(0, xevi.Count);
+                    y = Random.Next(0, yi.Count);
+                    int a = xevi[x];
+                    int b = yi[y];
+                    tabla[a, b] = i;
+                    xevi.Remove(xevi[x]);
+                    yi.Remove(yi[y]);
                     //za kvadratice cemo dodati da se uklone svi indexi u tom kvadraticu
                 }
                 xevi.Add(0);
@@ -69,7 +145,7 @@ namespace Projekat_Sudoku
                 yi.Add(7);
                 yi.Add(8);
             }
-
+            
 
         //POCETNI MENI
         pocetak:
@@ -124,36 +200,18 @@ Izaberite tezinu: ");
                 }
                 else if (opcija == "1")
                 {
-                    Console.WriteLine("TEZINA: lako");
-                    Console.Clear();
-                    for (int i = 0; i < 9; i++)
-                    {
-                        for (int j = 0; j < 9; j++)
-                            Console.Write(tabla[i, j] + " ");
-                        Console.WriteLine();
-                    }
+                    int hint = 5;
+                    Ispis(tabla, otvoreno, srca, hint, "lako", 5);
                 }
                 else if (opcija == "2")
                 {
-                    Console.WriteLine("TEZINA: ne tako lako");
-                    Console.Clear();
-                    for (int i = 0; i < 9; i++)
-                    {
-                        for (int j = 0; j < 9; j++)
-                            Console.Write(tabla[i, j] + " ");
-                        Console.WriteLine();
-                    }
+                    int hint = 3;
+                    Ispis(tabla, otvoreno, srca, hint, "ne tako lako", 3);
                 }
                 else if (opcija == "3")
                 {
-                    Console.WriteLine("TEZINA: nije lako");
-                    Console.Clear();
-                    for (int i = 0; i < 9; i++)
-                    {
-                        for (int j = 0; j < 9; j++)
-                            Console.Write(tabla[i, j] + " ");
-                        Console.WriteLine();
-                    }
+                    int hint = 1;
+                    Ispis(tabla, otvoreno, srca, hint, "nije lako", 1);
                 }
                 else
                 {
@@ -170,11 +228,9 @@ Izaberite tezinu: ");
             }
         }
 
-        static void Upis(int[,] tabla, bool[,] otvoreno )
+        static void Upis(int[,] tabla, bool[,] otvoreno, int hint, int srca)
         {
             string[] uneto = Console.ReadLine().ToUpper().Split(' ');
-            int srca = 3;
-            int hint = 3;
             Dictionary<char, int> slova = new Dictionary<char, int>();
             slova.Add('A', 0);
             slova.Add('B', 1);
