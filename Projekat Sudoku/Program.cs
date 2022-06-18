@@ -5,6 +5,20 @@ namespace Projekat_Sudoku
 {
     class Program
     {
+        static void OtvaranjePolja(int brpolja, bool[,] otvoreno)
+        {
+            while (brpolja != 0)
+            {
+                Random r = new Random();
+                int i = r.Next(0, 9);
+                int j = r.Next(0, 9);
+                if (!otvoreno[i, j])
+                {
+                    otvoreno[i, j] = true;
+                    brpolja--;
+                }
+            }
+        }
 
         static void Ispis(int[,] tabla, bool[,] otvoreno, int srca, int hint, string tezina, int maxhint)
         {
@@ -124,6 +138,10 @@ namespace Projekat_Sudoku
                     tabla[a, b] = i;
                     xevi.Remove(xevi[x]);
                     yi.Remove(yi[y]);
+                    if (xevi.Count == 0) 
+                        Console.WriteLine("Prazno x");
+                    if (yi.Count == 0) 
+                        Console.WriteLine("Prazno y");
                     //za kvadratice cemo dodati da se uklone svi indexi u tom kvadraticu
                 }
                 xevi.Add(0);
@@ -146,7 +164,7 @@ namespace Projekat_Sudoku
                 yi.Add(8);
             }
             
-
+            
         //POCETNI MENI
         pocetak:
             Console.Clear();
@@ -281,6 +299,6 @@ Izaberite tezinu: ");
                     }
                 }
             }
-        }
+        }*
     }
 }
