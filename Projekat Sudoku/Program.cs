@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Projekat_Sudoku
 {
@@ -95,7 +96,7 @@ namespace Projekat_Sudoku
             
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write("\n   TEZINA: ");
+            Console.Write("\n   Tezina: ");
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(tezina + "\n");
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -151,7 +152,7 @@ namespace Projekat_Sudoku
             Console.WriteLine("/" + maxhint);
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write("   Greske: ");
+            Console.Write("   Životi: ");
             Console.ForegroundColor = ConsoleColor.White;
             for (int i = 0; i < 3 - srca; i++) Console.Write("X ");
             for (int i = 0; i < srca; i++)
@@ -160,12 +161,15 @@ namespace Projekat_Sudoku
                 Console.Write("♥ "); 
             }
             Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("   Unesite polje i broj koji zelite da upisete: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("   Unesite polje i broj koji želite da upišete: ");
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.Unicode;
+
             //GENERISANJE TABLE
             int[,] tabla = new int[9, 9];
             bool [,] otvoreno = new bool[9, 9];
@@ -175,6 +179,7 @@ namespace Projekat_Sudoku
         //POCETNI MENI
         pocetak:
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write(@"
 █████████████████████████████████████████████████████████████████████████████████████████████
 █░░░░░░░░░░░░░░█░░░░░░██░░░░░░█░░░░░░░░░░░░███░░░░░░░░░░░░░░█░░░░░░██░░░░░░░░█░░░░░░██░░░░░░█
@@ -189,16 +194,27 @@ namespace Projekat_Sudoku
 █░░▄▀▄▀▄▀▄▀▄▀░░█░░▄▀▄▀▄▀▄▀▄▀░░█░░▄▀▄▀▄▀▄▀░░░░█░░▄▀▄▀▄▀▄▀▄▀░░█░░▄▀░░██░░▄▀▄▀░░█░░▄▀▄▀▄▀▄▀▄▀░░█
 █░░░░░░░░░░░░░░█░░░░░░░░░░░░░░█░░░░░░░░░░░░███░░░░░░░░░░░░░░█░░░░░░██░░░░░░░░█░░░░░░░░░░░░░░█
 █████████████████████████████████████████████████████████████████████████████████████████████
-1: Start
-2: Exit
-Izaberite opciju: ");
+");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine(@"
+    1: Start
+    2: Exit ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("   Izaberite opciju: " );
+            Console.ForegroundColor = ConsoleColor.White;
             string opcija = Console.ReadLine();
             if (opcija == "2") //ako kaze exit zaustavi se program
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Pritisnite bilo koje dugme kako biste zatvorili program.");
+                Console.ForegroundColor = ConsoleColor.Gray;
                 return;
+            }
             else if (opcija == "1") //ako kaze start otvara se meni sa ostalim opcijama
             {
-                tezine:
+            tezine:
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write(@"
 █████████████████████████████████████████████████████████████████████████████████████████████
 █░░░░░░░░░░░░░░█░░░░░░██░░░░░░█░░░░░░░░░░░░███░░░░░░░░░░░░░░█░░░░░░██░░░░░░░░█░░░░░░██░░░░░░█
@@ -213,45 +229,51 @@ Izaberite opciju: ");
 █░░▄▀▄▀▄▀▄▀▄▀░░█░░▄▀▄▀▄▀▄▀▄▀░░█░░▄▀▄▀▄▀▄▀░░░░█░░▄▀▄▀▄▀▄▀▄▀░░█░░▄▀░░██░░▄▀▄▀░░█░░▄▀▄▀▄▀▄▀▄▀░░█
 █░░░░░░░░░░░░░░█░░░░░░░░░░░░░░█░░░░░░░░░░░░███░░░░░░░░░░░░░░█░░░░░░██░░░░░░░░█░░░░░░░░░░░░░░█
 █████████████████████████████████████████████████████████████████████████████████████████████
-1: Lako
-2: Ne tako lako
-3: Nije lako
-4: Nazad
-Izaberite tezinu: ");
+");
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.Write(@"
+    1: Lako
+    2: Srednje
+    3: Teško
+    4: Nazad na početni meni
+");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write("   Izaberite težinu igre: ");
+                Console.ForegroundColor = ConsoleColor.White;
                 opcija = Console.ReadLine();
-                if (opcija == "4")
-                {
-                    goto pocetak;
-                }
+                if (opcija == "4") goto pocetak;
+
                 else if (opcija == "1")
                 {
                     int hint = 5;
                     OtvaranjePolja(65, otvoreno);
-                    Ispis(tabla, otvoreno, srca, hint, "lako", 5);
+                    Ispis(tabla, otvoreno, srca, hint, "LAKO", 5);
 
                 }
                 else if (opcija == "2")
                 {
                     int hint = 3;
                     OtvaranjePolja(55, otvoreno);
-                    Ispis(tabla, otvoreno, srca, hint, "ne tako lako", 3);
+                    Ispis(tabla, otvoreno, srca, hint, "SREDNJE", 3);
                 }
                 else if (opcija == "3")
                 {
                     int hint = 1;
                     OtvaranjePolja(45, otvoreno);
-                    Ispis(tabla, otvoreno, srca, hint, "nije lako", 1);
+                    Ispis(tabla, otvoreno, srca, hint, "TEŠKO", 1);
                 }
                 else
                 {
-                    Console.WriteLine("nije dobro");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Izabrana je nepostojeća opcija. Pokušajte ponovo.");
                     System.Threading.Thread.Sleep(1700);
                     goto tezine;
                 }
             }
             else //ako unese nesto sto nije u opcijama kaze mu da je glup i vraca ga na pocetak unosa
             {
-                Console.WriteLine("nije dobro");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Izabrana je nepostojeća opcija. Pokušajte ponovo.");
                 System.Threading.Thread.Sleep(1700);
                 goto pocetak;
             }
