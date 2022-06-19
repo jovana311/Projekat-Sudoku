@@ -7,6 +7,7 @@ namespace Projekat_Sudoku
     {
         static void OtvaranjePolja(int brpolja, bool[,] otvoreno)
         {
+            
             while (brpolja != 0)
             {
                 Random r = new Random();
@@ -18,8 +19,77 @@ namespace Projekat_Sudoku
                     brpolja--;
                 }
             }
-        }
+            
 
+           
+        }
+        static void Generator(int[,] tabla)
+        {
+            List<int> a = new List<int>();
+            a.Add(1);
+            a.Add(2);
+            a.Add(3);
+            a.Add(4);
+            a.Add(5);
+            a.Add(6);
+            a.Add(7);
+            a.Add(8);
+            a.Add(9);
+
+            Random r = new Random();
+            int trnt = r.Next(1, 10);
+
+            //Ubacivanje elemenata u prvu kolonu
+            for (int i = 0; i < 9; i++)
+            {
+                trnt = r.Next(1, 10);
+                while (!a.Contains(trnt)) trnt = r.Next(1, 10);
+                a.Remove(trnt);
+                tabla[i, 0] = trnt;
+            }
+
+            //popunjavanje prve kocke
+            for (int i = 0; i < 3; i++)
+            {
+                tabla[0 + i, 1] = tabla[3 + i, 0];
+                tabla[0 + i, 2] = tabla[6 + i, 0];
+            }
+
+            //Popunjavanje prve tri kocke vertikalno
+            for (int i = 0; i < 3; i++)
+            {
+                //prvi deo
+                tabla[3 + i, 2] = tabla[0 + i, 0];
+                tabla[6 + i, 1] = tabla[0 + i, 0];
+
+                //drugi deo
+                tabla[3 + i, 0] = tabla[0 + i, 1];
+                tabla[6 + i, 2] = tabla[0 + i, 1];
+
+                //treci deo
+                tabla[3 + i, 1] = tabla[0 + i, 2];
+                tabla[6 + i, 0] = tabla[0 + i, 2];
+            }
+
+            //popunjavanje ostalog
+            for (int i = 0; i < 7; i += 3)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    //prvi red
+                    tabla[2 + i, 3 + j] = tabla[0 + i, 0 + j];
+                    tabla[1 + i, 6 + j] = tabla[0 + i, 0 + j];
+
+                    //drugi red
+                    tabla[0 + i, 3 + j] = tabla[1 + i, 0 + j];
+                    tabla[2 + i, 6 + j] = tabla[1 + i, 0 + j];
+
+                    //treci red 
+                    tabla[1 + i, 3 + j] = tabla[2 + i, 0 + j];
+                    tabla[0 + i, 6 + j] = tabla[2 + i, 0 + j];
+                }
+            }
+        }
         static void Ispis(int[,] tabla, bool[,] otvoreno, int srca, int hint, string tezina, int maxhint)
         {
             
@@ -33,6 +103,7 @@ namespace Projekat_Sudoku
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("   -------------------------------");
             Console.ForegroundColor = ConsoleColor.White;
+
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
@@ -96,74 +167,10 @@ namespace Projekat_Sudoku
         static void Main(string[] args)
         {
             //GENERISANJE TABLE
-            
-            int[,] kvadratic = new int[3, 3];
             int[,] tabla = new int[9, 9];
-            bool[,] otvoreno = new bool[9, 9];
+            bool [,] otvoreno = new bool[9, 9];
             int srca = 3;
-
-            List<int> xevi = new List<int>();
-            List<int> yi = new List<int>();
-            xevi.Add(0);
-            xevi.Add(1);
-            xevi.Add(2);
-            xevi.Add(3);
-            xevi.Add(4);
-            xevi.Add(5);
-            xevi.Add(6);
-            xevi.Add(7);
-            xevi.Add(8);
-            yi.Add(0);
-            yi.Add(1);
-            yi.Add(2);
-            yi.Add(3);
-            yi.Add(4);
-            yi.Add(5);
-            yi.Add(6);
-            yi.Add(7);
-            yi.Add(8);
-
-            Random Random = new Random(); //generise random broj koji je random
-            int x = Random.Next(0, xevi.Count);
-            int y = Random.Next(0, yi.Count);
-
-            for (int i = 1; i < 10; i++) //koji broj se trenutno ubacuje
-            {
-                for (int j = 1; j < 10; j++) //koliko tog broja je ubaceno
-                {
-                    x = Random.Next(0, xevi.Count);
-                    y = Random.Next(0, yi.Count);
-                    int a = xevi[x];
-                    int b = yi[y];
-                    tabla[a, b] = i;
-                    xevi.Remove(xevi[x]);
-                    yi.Remove(yi[y]);
-                    if (xevi.Count == 0) 
-                        Console.WriteLine("Prazno x");
-                    if (yi.Count == 0) 
-                        Console.WriteLine("Prazno y");
-                    //za kvadratice cemo dodati da se uklone svi indexi u tom kvadraticu
-                }
-                xevi.Add(0);
-                xevi.Add(1);
-                xevi.Add(2);
-                xevi.Add(3);
-                xevi.Add(4);
-                xevi.Add(5);
-                xevi.Add(6);
-                xevi.Add(7);
-                xevi.Add(8);
-                yi.Add(0);
-                yi.Add(1);
-                yi.Add(2);
-                yi.Add(3);
-                yi.Add(4);
-                yi.Add(5);
-                yi.Add(6);
-                yi.Add(7);
-                yi.Add(8);
-            }
-            
+            Generator(tabla);
             
         //POCETNI MENI
         pocetak:
@@ -219,16 +226,20 @@ Izaberite tezinu: ");
                 else if (opcija == "1")
                 {
                     int hint = 5;
+                    OtvaranjePolja(65, otvoreno);
                     Ispis(tabla, otvoreno, srca, hint, "lako", 5);
+
                 }
                 else if (opcija == "2")
                 {
                     int hint = 3;
+                    OtvaranjePolja(55, otvoreno);
                     Ispis(tabla, otvoreno, srca, hint, "ne tako lako", 3);
                 }
                 else if (opcija == "3")
                 {
                     int hint = 1;
+                    OtvaranjePolja(45, otvoreno);
                     Ispis(tabla, otvoreno, srca, hint, "nije lako", 1);
                 }
                 else
@@ -299,6 +310,6 @@ Izaberite tezinu: ");
                     }
                 }
             }
-        }*
+        }
     }
 }
