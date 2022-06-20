@@ -170,8 +170,8 @@ namespace Projekat_Sudoku
         {
             Console.OutputEncoding = Encoding.Unicode;
 
-            //GENERISANJE TABLE
-            int[,] tabla = new int[9, 9];
+        //GENERISANJE TABLE
+        pocetak: int[,] tabla = new int[9, 9];
             bool [,] otvoreno = new bool[9, 9];
 
             for(int h=0;h<9;h++)
@@ -185,7 +185,7 @@ namespace Projekat_Sudoku
             Generator(tabla);
             
         //POCETNI MENI
-        pocetak:
+       
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write(@"
@@ -254,7 +254,7 @@ namespace Projekat_Sudoku
                 else if (opcija == "1")
                 {
                     int hint = 5;
-                    OtvaranjePolja(65, otvoreno);
+                    OtvaranjePolja(65, otvoreno); 
                     Ispis(tabla,  otvoreno, srca, hint, "LAKO", 5);
                     Upis(tabla,  otvoreno,  srca,  hint,"LAKO",5);
                     goto pocetak;
@@ -292,6 +292,19 @@ namespace Projekat_Sudoku
                 goto pocetak;
             }
         }
+        static bool imaPraznihMesta(bool[,] otvoreno)
+        {
+            for (int i=0; i < 9; i++)
+            {
+                for (int j=0; j<9;j++)
+                {
+                    if (otvoreno[i, j] == false)
+                        return true;
+                }
+            }
+            return false;
+
+        }
 
         static void Upis(int[,] tabla, bool[,] otvoreno, int srca, int hint, string tezina, int maxhint)
         {
@@ -327,17 +340,17 @@ namespace Projekat_Sudoku
                     odgovor = Console.ReadLine();
                 }
 
-                if(odgovor=="da")
+                if(odgovor.Equals("da"))
                 {
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    Console.WriteLine("Izabrali ste zavrsetak igre.");
-      
+                    Console.WriteLine("Pritisnite bilo koje dugme kako biste se vratili na pocetni meni.");
+                    Console.ReadKey();
                     return;
                 }
                 else {
                     Console.ForegroundColor = ConsoleColor.Gray;
                     Console.WriteLine("Nastavljamo igru. Unesite sledece polje.");
-                
+               
                     goto unos; 
                 }
               
@@ -349,7 +362,8 @@ namespace Projekat_Sudoku
               
               int i = int.Parse(koordinate[1].ToString())-1; //vrsta
               int j ;
-            if (!slova.ContainsKey(koordinate[0]) || (i>9 || i <0)  || int.Parse(uneto[1])>=10) //provera unosa
+              int broj;
+            if (koordinate.Length > 2 || !slova.ContainsKey(koordinate[0]) || (i>9 || i <0)  || !int.TryParse(uneto[1], out broj) || broj >=10) //provera unosa
              {
                 Console.Write("Pogresan unos, unesite ponovo: ");
 
@@ -363,6 +377,8 @@ namespace Projekat_Sudoku
                 {
                     Console.WriteLine("To polje je vec otvoreno. Ukucajte sledece.");
                     System.Threading.Thread.Sleep(1700);
+                    Console.Clear();
+                    Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
                     goto unos;
                 }
 
@@ -375,7 +391,18 @@ namespace Projekat_Sudoku
                         System.Threading.Thread.Sleep(1700);
                         Console.Clear();
                         Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
-                        goto unos;
+                        if (imaPraznihMesta(otvoreno))
+                        {
+                            goto unos;
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("Cestitamo. Uspesan zavrsetak igre!");
+                            Console.WriteLine("Pritisnite bilo koje dugme kako biste se vratili na pocetni meni.");
+                            Console.ReadKey();
+                            return;
+                        }
                     }
                     else
                     {
@@ -394,14 +421,14 @@ namespace Projekat_Sudoku
                             Console.WriteLine("Da li zelite da vidite resenje? (da/ne)");
                             string odgovor = Console.ReadLine();
 
-                            while (odgovor != "da" || odgovor != "ne")
+                            while (!odgovor.Equals("da") && !odgovor.Equals("ne"))
                             {
                                 Console.Write("Pogresan unos, unesite ponovo: ");
 
                                 odgovor = Console.ReadLine();
                             }
 
-                            if (odgovor == "da")
+                            if (odgovor.Equals("da"))
                             {
                                 Console.Clear();
 
@@ -415,8 +442,15 @@ namespace Projekat_Sudoku
                                 }
 
                                 Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
+                                Console.ForegroundColor = ConsoleColor.Gray;
                                 Console.WriteLine("Pritisnite bilo koje dugme kako biste se vratili na pocetni meni.");
-                                System.Threading.Thread.Sleep(1700);
+                                Console.ReadKey();
+                               
+                          
+                                return;
+                            }
+                            else
+                            {
                                 Console.ForegroundColor = ConsoleColor.Gray;
                                 return;
                             }
