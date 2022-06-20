@@ -279,8 +279,9 @@ namespace Projekat_Sudoku
             }
         }
 
-        static void Upis(int[,] tabla, bool[,] otvoreno, int hint, int srca)
+        static void Upis(int[,] tabla,out bool[,] otvoreno, int hint, int srca)
         {
+
             string[] uneto = Console.ReadLine().ToUpper().Split(' ');
             Dictionary<char, int> slova = new Dictionary<char, int>();
             slova.Add('A', 0);
@@ -293,6 +294,21 @@ namespace Projekat_Sudoku
             slova.Add('H', 7);
             slova.Add('I', 8);
 
+             char[] koordinate = uneto[0].ToCharArray();
+                int j = slova[koordinate[0]]; //kolona
+                int i = koordinate[1]; //vrsta
+
+             while (!slova.ContainsKey(j) || !slova.ContainsValue(i)) //provera unosa
+             {
+                Console.Write("Pogresan unos, unesite ponovo: ");
+
+                uneto = Console.ReadLine().ToUpper().Split(' ');
+
+                koordinate = uneto[0].ToCharArray();
+                j = slova[koordinate[0]];
+                i = koordinate[1];
+             }
+
             if (uneto[0]=="HINT")
             {
                 //natalija
@@ -300,28 +316,44 @@ namespace Projekat_Sudoku
 
             else if(uneto[0]=="KRAJ")
             {
-               return;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Da li ste sigurni da zelite da prekinete igru? (da/ne)");
+                string odgovor = Console.ReadLine();
+
+                while(odgovor!="da" || odgovor!="ne")
+                {
+                    Console.Write("Pogresan unos, unesite ponovo: ");
+                    odgovor = Console.ReadLine();
+                }
+
+                if(odgovor=="da")
+                {
+                    Console.WriteLine("Pritisnite bilo koje dugme kako biste zatvorili program.");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    return;
+                }
+                else if(odgovor=="ne")
+                {
+                    continue;
+                }
+                
             }
 
             else
             {
-                char[] koordinate = uneto[0].ToCharArray();
-                int j = slova[koordinate[0]]; //kolona
-                int i = koordinate[1]; //vrsta
-
-                /*
-                if (otvoreno)
+               
+                if (otvoreno[i,j])
                 {
-                    //kazi mu d JE GLUP
+                    Console.WriteLine("To polje je vec otvoreno. Ukucajte sledece.");
+                    continue;
                 }
-                */
-                if(1==1) //else
+                
+                else
                 {
                     if (tabla[i, j] == int.Parse(uneto[1]))
                     {
-                        //otvoriti polje
                         otvoreno[i, j] = true;
-
+                        //
                     }
                     else
                     {
