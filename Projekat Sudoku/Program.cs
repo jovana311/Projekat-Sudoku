@@ -293,10 +293,7 @@ namespace Projekat_Sudoku
         static void Upis(int[,] tabla, bool[,] otvoreno, int srca, int hint, string tezina, int maxhint)
         {
 
-          
-            
-            string [] uneto = Console.ReadLine().ToUpper().Split(' ');
-            Dictionary<char, int> slova = new Dictionary<char, int>();
+           Dictionary<char, int> slova = new Dictionary<char, int>();
             slova.Add('A', 0);
             slova.Add('B', 1);
             slova.Add('C', 2);
@@ -307,20 +304,8 @@ namespace Projekat_Sudoku
             slova.Add('H', 7);
             slova.Add('I', 8);
 
-             char[] koordinate = uneto[0].ToCharArray();
-                int j = slova[koordinate[0]]; //kolona
-                int i = koordinate[1]; //vrsta
-
-             while (!slova.ContainsKey(Convert.ToChar(j)) || !slova.ContainsValue(Convert.ToChar(i))) //provera unosa
-             {
-                Console.Write("Pogresan unos, unesite ponovo: ");
-
-                uneto = Console.ReadLine().ToUpper().Split(' ');
-
-                koordinate = uneto[0].ToCharArray();
-                j = slova[koordinate[0]];
-                i = koordinate[1];
-             }
+            
+        unos:    string [] uneto = Console.ReadLine().ToUpper().Split(' ');
 
             if (uneto[0]=="HINT")
             {
@@ -345,17 +330,34 @@ namespace Projekat_Sudoku
                     Console.ForegroundColor = ConsoleColor.Gray;
                     return;
                 }
-                
+              
                 
             }
 
-            else
-            {
+          
+             char[] koordinate = uneto[0].ToCharArray();
+              
+              int i = int.Parse(koordinate[1].ToString())-1; //vrsta
+int j ;
+          while (!slova.ContainsKey(koordinate[0]) || (i>9 || i <0)  || int.Parse(uneto[1])>=10) //provera unosa
+             {
+                Console.Write("Pogresan unos, unesite ponovo: ");
+
+                uneto = Console.ReadLine().ToUpper().Split(' ');
+
+                koordinate = uneto[0].ToCharArray();
+              
+                i = int.Parse(koordinate[1].ToString())-1;
+             }
+            j = slova[koordinate[0]]; //kolona
+            
+
                
                 if (otvoreno[i,j])
                 {
                     Console.WriteLine("To polje je vec otvoreno. Ukucajte sledece.");
-                  
+                    System.Threading.Thread.Sleep(1700);
+                    goto unos;
                 }
                 
                 else
@@ -364,8 +366,10 @@ namespace Projekat_Sudoku
                     {
                         otvoreno[i, j] = true;
                         Console.WriteLine("Tacno.");
+                         System.Threading.Thread.Sleep(1700);
                         Console.Clear();
                         Ispis(tabla,otvoreno, srca, hint, tezina, maxhint);
+                        goto unos;
                     }
                     else
                     {
@@ -373,6 +377,7 @@ namespace Projekat_Sudoku
                         {
                             srca--;
                             Console.WriteLine("Pogresno.");
+                            System.Threading.Thread.Sleep(1700);
                             Console.Clear();
                             Ispis(tabla,otvoreno, srca, hint, tezina, maxhint);
                          }
@@ -386,6 +391,7 @@ namespace Projekat_Sudoku
                              while(odgovor!="da" || odgovor!="ne")
                              {
                                 Console.Write("Pogresan unos, unesite ponovo: ");
+
                                 odgovor = Console.ReadLine();
                              }
 
@@ -404,6 +410,7 @@ namespace Projekat_Sudoku
 
                                 Ispis(tabla,otvoreno, srca, hint, tezina, maxhint);
                                 Console.WriteLine("Pritisnite bilo koje dugme kako biste se vratili na pocetni meni.");
+                                 System.Threading.Thread.Sleep(1700);
                                 Console.ForegroundColor = ConsoleColor.Gray;
                                 return;
                              }
@@ -413,9 +420,10 @@ namespace Projekat_Sudoku
 
                         Console.Clear();
                         Ispis(tabla,otvoreno,  srca,  hint, tezina, maxhint);
+                        goto unos;
 
                     }
-                }
+               
             }
         }
     }
