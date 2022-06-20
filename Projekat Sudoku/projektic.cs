@@ -349,6 +349,7 @@ namespace Projekat_Sudoku
                         }
                     }
                     Console.WriteLine("Otvorice se polje: " + p + (i+1));
+
                     System.Threading.Thread.Sleep(3000);
                     Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
                     goto unos;
