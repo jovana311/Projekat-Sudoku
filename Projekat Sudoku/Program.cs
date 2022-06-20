@@ -257,6 +257,7 @@ namespace Projekat_Sudoku
                     OtvaranjePolja(65, otvoreno);
                     Ispis(tabla,  otvoreno, srca, hint, "LAKO", 5);
                     Upis(tabla,  otvoreno,  srca,  hint,"LAKO",5);
+                    goto pocetak;
 
                 }
                 else if (opcija == "2")
@@ -265,6 +266,7 @@ namespace Projekat_Sudoku
                     OtvaranjePolja(55,  otvoreno);
                     Ispis(tabla, otvoreno, srca, hint, "SREDNJE", 3);
                     Upis(tabla,  otvoreno, srca, hint,"SREDNJE", 3);
+                    goto pocetak;
                 }
                 else if (opcija == "3")
                 {
@@ -272,6 +274,7 @@ namespace Projekat_Sudoku
                     OtvaranjePolja(45,  otvoreno);
                     Ispis(tabla, otvoreno, srca, hint, "TEŠKO", 1);
                     Upis(tabla, otvoreno, srca, hint, "TEŠKO", 1);
+                    goto pocetak;
                 }
                 else
                 {
@@ -318,7 +321,7 @@ namespace Projekat_Sudoku
                 Console.WriteLine("Da li ste sigurni da zelite da prekinete igru? (da/ne)");
                 string odgovor = Console.ReadLine();
 
-                while(odgovor!="da" || odgovor!="ne")
+                while(!odgovor.Equals("da") && !odgovor.Equals("ne"))
                 {
                     Console.Write("Pogresan unos, unesite ponovo: ");
                     odgovor = Console.ReadLine();
@@ -326,104 +329,107 @@ namespace Projekat_Sudoku
 
                 if(odgovor=="da")
                 {
-                    Console.WriteLine("Pritisnite bilo koje dugme kako biste zatvorili program.");
                     Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.WriteLine("Izabrali ste zavrsetak igre.");
+      
                     return;
+                }
+                else {
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.WriteLine("Nastavljamo igru. Unesite sledece polje.");
+                
+                    goto unos; 
                 }
               
                 
             }
-
+            else { 
           
              char[] koordinate = uneto[0].ToCharArray();
               
               int i = int.Parse(koordinate[1].ToString())-1; //vrsta
-int j ;
-          while (!slova.ContainsKey(koordinate[0]) || (i>9 || i <0)  || int.Parse(uneto[1])>=10) //provera unosa
+              int j ;
+            if (!slova.ContainsKey(koordinate[0]) || (i>9 || i <0)  || int.Parse(uneto[1])>=10) //provera unosa
              {
                 Console.Write("Pogresan unos, unesite ponovo: ");
 
-                uneto = Console.ReadLine().ToUpper().Split(' ');
-
-                koordinate = uneto[0].ToCharArray();
-              
-                i = int.Parse(koordinate[1].ToString())-1;
+                    goto unos;
              }
             j = slova[koordinate[0]]; //kolona
-            
 
-               
-                if (otvoreno[i,j])
+
+
+                if (otvoreno[i, j])
                 {
                     Console.WriteLine("To polje je vec otvoreno. Ukucajte sledece.");
                     System.Threading.Thread.Sleep(1700);
                     goto unos;
                 }
-                
+
                 else
                 {
                     if (tabla[i, j] == int.Parse(uneto[1]))
                     {
                         otvoreno[i, j] = true;
                         Console.WriteLine("Tacno.");
-                         System.Threading.Thread.Sleep(1700);
+                        System.Threading.Thread.Sleep(1700);
                         Console.Clear();
-                        Ispis(tabla,otvoreno, srca, hint, tezina, maxhint);
+                        Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
                         goto unos;
                     }
                     else
                     {
-                        if(srca>0)
+                        if (srca > 0)
                         {
                             srca--;
                             Console.WriteLine("Pogresno.");
                             System.Threading.Thread.Sleep(1700);
                             Console.Clear();
-                            Ispis(tabla,otvoreno, srca, hint, tezina, maxhint);
-                         }
+                            Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
+                        }
                         else
                         {
                             Console.WriteLine("Pogresno." + " \n  Nemate vise zivota. Igra zavrsena");
-                            
-                            Console.WriteLine("Da li zelite da vidite resenje? (da/ne)");
-                            string    odgovor = Console.ReadLine();
 
-                             while(odgovor!="da" || odgovor!="ne")
-                             {
+                            Console.WriteLine("Da li zelite da vidite resenje? (da/ne)");
+                            string odgovor = Console.ReadLine();
+
+                            while (odgovor != "da" || odgovor != "ne")
+                            {
                                 Console.Write("Pogresan unos, unesite ponovo: ");
 
                                 odgovor = Console.ReadLine();
-                             }
+                            }
 
-                             if(odgovor=="da")
-                             {
+                            if (odgovor == "da")
+                            {
                                 Console.Clear();
 
-                                for(int t=0;t<9;t++)
-                                  {
-                                    for(int k=0;k<9;k++)
+                                for (int t = 0; t < 9; t++)
+                                {
+                                    for (int k = 0; k < 9; k++)
                                     {
-                                       otvoreno[t,k]=true;
+                                        otvoreno[t, k] = true;
                                     }
-                                        
-                                  }
 
-                                Ispis(tabla,otvoreno, srca, hint, tezina, maxhint);
+                                }
+
+                                Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
                                 Console.WriteLine("Pritisnite bilo koje dugme kako biste se vratili na pocetni meni.");
-                                 System.Threading.Thread.Sleep(1700);
+                                System.Threading.Thread.Sleep(1700);
                                 Console.ForegroundColor = ConsoleColor.Gray;
                                 return;
-                             }
-                           
+                            }
+
 
                         }
 
                         Console.Clear();
-                        Ispis(tabla,otvoreno,  srca,  hint, tezina, maxhint);
+                        Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
                         goto unos;
 
                     }
-               
+                }
             }
         }
     }
