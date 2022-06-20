@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 
 namespace Projekat_Sudoku
 {
@@ -91,7 +92,7 @@ namespace Projekat_Sudoku
                 }
             }
         }
-        static void Ispis(int[,] tabla, bool[,] otvoreno, int srca, int hint, string tezina, int maxhint)
+        static void Ispis(int[,] tabla, bool[,] otvoreno, int srca, int hint, string tezina, int maxhint,Stopwatch vreme)
         {
             
             Console.Clear();
@@ -248,6 +249,7 @@ namespace Projekat_Sudoku
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write("   Izaberite težinu igre: ");
                 Console.ForegroundColor = ConsoleColor.White;
+                Stopwatch vreme = new Stopwatch();
                 opcija = Console.ReadLine();
                 if (opcija == "4") goto pocetak;
 
@@ -255,8 +257,9 @@ namespace Projekat_Sudoku
                 {
                     int hint = 5;
                     OtvaranjePolja(65, otvoreno); 
-                    Ispis(tabla,  otvoreno, srca, hint, "LAKO", 5);
-                    Upis(tabla,  otvoreno,  srca,  hint,"LAKO",5);
+                    Ispis(tabla,  otvoreno, srca, hint, "LAKO", 5,vreme);
+                    vreme.Start();
+                    Upis(tabla,  otvoreno,  srca,  hint,"LAKO",5,vreme);
                     goto pocetak;
 
                 }
@@ -264,16 +267,18 @@ namespace Projekat_Sudoku
                 {
                     int hint = 3;
                     OtvaranjePolja(55,  otvoreno);
-                    Ispis(tabla, otvoreno, srca, hint, "SREDNJE", 3);
-                    Upis(tabla,  otvoreno, srca, hint,"SREDNJE", 3);
+                    Ispis(tabla, otvoreno, srca, hint, "SREDNJE", 3,vreme);
+                    vreme.Start();
+                    Upis(tabla,  otvoreno, srca, hint,"SREDNJE", 3,vreme);
                     goto pocetak;
                 }
                 else if (opcija == "3")
                 {
                     int hint = 1;
                     OtvaranjePolja(45,  otvoreno);
-                    Ispis(tabla, otvoreno, srca, hint, "TEŠKO", 1);
-                    Upis(tabla, otvoreno, srca, hint, "TEŠKO", 1);
+                    Ispis(tabla, otvoreno, srca, hint, "TEŠKO", 1,vreme);
+                    vreme.Start();
+                    Upis(tabla, otvoreno, srca, hint, "TEŠKO", 1,vreme);
                     goto pocetak;
                 }
                 else
@@ -306,7 +311,7 @@ namespace Projekat_Sudoku
 
         }
 
-        static void Upis(int[,] tabla, bool[,] otvoreno, int srca, int hint, string tezina, int maxhint)
+        static void Upis(int[,] tabla, bool[,] otvoreno, int srca, int hint, string tezina, int maxhint, Stopwatch vreme)
         {
 
            Dictionary<char, int> slova = new Dictionary<char, int>();
@@ -351,14 +356,14 @@ namespace Projekat_Sudoku
                     Console.WriteLine("Otvorice se polje: " + p + (i+1));
 
                     System.Threading.Thread.Sleep(3000);
-                    Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
+                    Ispis(tabla, otvoreno, srca, hint, tezina, maxhint,vreme);
                     goto unos;
                 }
                 else
                 {
                     Console.WriteLine("Nemate hintova na raspolaganju!");
                     System.Threading.Thread.Sleep(1700);
-                    Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
+                    Ispis(tabla, otvoreno, srca, hint, tezina, maxhint,vreme);
                     goto unos;
                 }
 
@@ -414,7 +419,7 @@ namespace Projekat_Sudoku
                     Console.WriteLine("To polje je vec otvoreno. Ukucajte sledece.");
                     System.Threading.Thread.Sleep(1700);
                     Console.Clear();
-                    Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
+                    Ispis(tabla, otvoreno, srca, hint, tezina, maxhint,vreme);
                     goto unos;
                 }
 
@@ -426,15 +431,17 @@ namespace Projekat_Sudoku
                         Console.WriteLine("Tacno.");
                         System.Threading.Thread.Sleep(1700);
                         Console.Clear();
-                        Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
+                        Ispis(tabla, otvoreno, srca, hint, tezina, maxhint,vreme);
                         if (imaPraznihMesta(otvoreno))
                         {
                             goto unos;
                         }
                         else
                         {
+                            vreme.Stop();
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("Cestitamo. Uspesan zavrsetak igre!");
+                            Console.WriteLine("Vreme igre: " + vreme.Elapsed);
                             Console.WriteLine("Pritisnite bilo koje dugme kako biste se vratili na pocetni meni.");
                             Console.ReadKey();
                             return;
@@ -448,7 +455,7 @@ namespace Projekat_Sudoku
                             Console.WriteLine("Pogresno.");
                             System.Threading.Thread.Sleep(1700);
                             Console.Clear();
-                            Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
+                            Ispis(tabla, otvoreno, srca, hint, tezina, maxhint,vreme);
                         }
                         else
                         {
@@ -477,7 +484,7 @@ namespace Projekat_Sudoku
 
                                 }
 
-                                Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
+                                Ispis(tabla, otvoreno, srca, hint, tezina, maxhint,vreme);
                                 Console.ForegroundColor = ConsoleColor.Gray;
                                 Console.WriteLine("Pritisnite bilo koje dugme kako biste se vratili na pocetni meni.");
                                 Console.ReadKey();
@@ -495,7 +502,7 @@ namespace Projekat_Sudoku
                         }
 
                         Console.Clear();
-                        Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
+                        Ispis(tabla, otvoreno, srca, hint, tezina, maxhint,vreme);
                         goto unos;
 
                     }
