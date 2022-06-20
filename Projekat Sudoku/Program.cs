@@ -173,6 +173,14 @@ namespace Projekat_Sudoku
             //GENERISANJE TABLE
             int[,] tabla = new int[9, 9];
             bool [,] otvoreno = new bool[9, 9];
+
+            for(int h=0;h<9;h++)
+            {
+                for(int u=0;u<9;u++)
+                {
+                    otvoreno[h,u]=false;
+                }
+            }
             int srca = 3;
             Generator(tabla);
             
@@ -247,20 +255,23 @@ namespace Projekat_Sudoku
                 {
                     int hint = 5;
                     OtvaranjePolja(65, otvoreno);
-                    Ispis(tabla, otvoreno, srca, hint, "LAKO", 5);
+                    Ispis(tabla,  otvoreno, srca, hint, "LAKO", 5);
+                    Upis(tabla,  otvoreno,  srca,  hint,"LAKO",5);
 
                 }
                 else if (opcija == "2")
                 {
                     int hint = 3;
-                    OtvaranjePolja(55, otvoreno);
+                    OtvaranjePolja(55,  otvoreno);
                     Ispis(tabla, otvoreno, srca, hint, "SREDNJE", 3);
+                    Upis(tabla,  otvoreno, srca, hint,"SREDNJE", 3);
                 }
                 else if (opcija == "3")
                 {
                     int hint = 1;
-                    OtvaranjePolja(45, otvoreno);
+                    OtvaranjePolja(45,  otvoreno);
                     Ispis(tabla, otvoreno, srca, hint, "TEŠKO", 1);
+                    Upis(tabla, otvoreno, srca, hint, "TEŠKO", 1);
                 }
                 else
                 {
@@ -279,10 +290,12 @@ namespace Projekat_Sudoku
             }
         }
 
-        static void Upis(int[,] tabla,out bool[,] otvoreno, int hint, int srca)
+        static void Upis(int[,] tabla, bool[,] otvoreno, int srca, int hint, string tezina, int maxhint)
         {
 
-            string[] uneto = Console.ReadLine().ToUpper().Split(' ');
+          
+            
+            string [] uneto = Console.ReadLine().ToUpper().Split(' ');
             Dictionary<char, int> slova = new Dictionary<char, int>();
             slova.Add('A', 0);
             slova.Add('B', 1);
@@ -298,7 +311,7 @@ namespace Projekat_Sudoku
                 int j = slova[koordinate[0]]; //kolona
                 int i = koordinate[1]; //vrsta
 
-             while (!slova.ContainsKey(j) || !slova.ContainsValue(i)) //provera unosa
+             while (!slova.ContainsKey(Convert.ToChar(j)) || !slova.ContainsValue(Convert.ToChar(i))) //provera unosa
              {
                 Console.Write("Pogresan unos, unesite ponovo: ");
 
@@ -332,10 +345,7 @@ namespace Projekat_Sudoku
                     Console.ForegroundColor = ConsoleColor.Gray;
                     return;
                 }
-                else if(odgovor=="ne")
-                {
-                    continue;
-                }
+                
                 
             }
 
@@ -345,7 +355,7 @@ namespace Projekat_Sudoku
                 if (otvoreno[i,j])
                 {
                     Console.WriteLine("To polje je vec otvoreno. Ukucajte sledece.");
-                    continue;
+                  
                 }
                 
                 else
@@ -353,14 +363,57 @@ namespace Projekat_Sudoku
                     if (tabla[i, j] == int.Parse(uneto[1]))
                     {
                         otvoreno[i, j] = true;
-                        //
+                        Console.WriteLine("Tacno.");
+                        Console.Clear();
+                        Ispis(tabla,otvoreno, srca, hint, tezina, maxhint);
                     }
                     else
                     {
-                        //glup si
-                        srca--;
+                        if(srca>0)
+                        {
+                            srca--;
+                            Console.WriteLine("Pogresno.");
+                            Console.Clear();
+                            Ispis(tabla,otvoreno, srca, hint, tezina, maxhint);
+                         }
+                        else
+                        {
+                            Console.WriteLine("Pogresno." + " \n  Nemate vise zivota. Igra zavrsena");
+                            
+                            Console.WriteLine("Da li zelite da vidite resenje? (da/ne)");
+                            string    odgovor = Console.ReadLine();
 
-                        if (srca == 0) return; //mnogo si glup ispisi
+                             while(odgovor!="da" || odgovor!="ne")
+                             {
+                                Console.Write("Pogresan unos, unesite ponovo: ");
+                                odgovor = Console.ReadLine();
+                             }
+
+                             if(odgovor=="da")
+                             {
+                                Console.Clear();
+
+                                for(int t=0;t<9;t++)
+                                  {
+                                    for(int k=0;k<9;k++)
+                                    {
+                                       otvoreno[t,k]=true;
+                                    }
+                                        
+                                  }
+
+                                Ispis(tabla,otvoreno, srca, hint, tezina, maxhint);
+                                Console.WriteLine("Pritisnite bilo koje dugme kako biste se vratili na pocetni meni.");
+                                Console.ForegroundColor = ConsoleColor.Gray;
+                                return;
+                             }
+                           
+
+                        }
+
+                        Console.Clear();
+                        Ispis(tabla,otvoreno,  srca,  hint, tezina, maxhint);
+
                     }
                 }
             }
