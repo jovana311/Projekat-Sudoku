@@ -162,7 +162,7 @@ namespace Projekat_Sudoku
             }
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("   Unesite polje i broj koji želite da upišete: ");
+            Console.WriteLine("   Unesite polje i broj koji želite da upišete(npr: C1 3): ");
             Console.ForegroundColor = ConsoleColor.White;
         }
 
@@ -325,7 +325,42 @@ namespace Projekat_Sudoku
 
             if (uneto[0]=="HINT")
             {
-                //natalija
+                if(hint>0)
+                {
+                    Random r = new Random();
+                    int i = r.Next(0, 9);
+                    int j = r.Next(0, 9);
+                    while (otvoreno[i, j])
+                    {
+                        r = new Random();
+                        i = r.Next(0, 9);
+                        j = r.Next(0, 9);
+                    }
+
+                    otvoreno[i, j] = true;
+                    hint--;
+                    char p = ' ';
+                    foreach (KeyValuePair<char,int> par in slova)
+                    {
+                        if (slova[par.Key]==j)
+                        {
+                             p = par.Key;
+                            break;
+                        }
+                    }
+                    Console.WriteLine("Otvorice se polje: " + p + (i+1));
+                    System.Threading.Thread.Sleep(3000);
+                    Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
+                    goto unos;
+                }
+                else
+                {
+                    Console.WriteLine("Nemate hintova na raspolaganju!");
+                    System.Threading.Thread.Sleep(1700);
+                    Ispis(tabla, otvoreno, srca, hint, tezina, maxhint);
+                    goto unos;
+                }
+
             }
 
             else if(uneto[0]=="KRAJ")
