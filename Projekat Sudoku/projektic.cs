@@ -322,7 +322,9 @@ namespace Projekat_Sudoku
                 vreme.Stop();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Cestitamo. Uspesan zavrsetak igre!");
-                Console.WriteLine("Vreme igre: " + vreme.Elapsed);//ispisuje se vreme
+                TimeSpan ts = vreme.Elapsed;
+                string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+                Console.WriteLine("Vreme igre: " + elapsedTime);//ispisuje se vreme
                 Console.WriteLine("Pritisnite bilo koje dugme kako biste se vratili na pocetni meni.");
                 Console.ReadKey();
                 return true;
@@ -463,7 +465,9 @@ namespace Projekat_Sudoku
                             vreme.Stop();
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("Cestitamo. Uspesan zavrsetak igre!");
-                            Console.WriteLine("Vreme igre: " + vreme.Elapsed);
+                            TimeSpan ts = vreme.Elapsed;
+                            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+                            Console.WriteLine("Vreme igre: " + elapsedTime);
                             Console.WriteLine("Pritisnite bilo koje dugme kako biste se vratili na pocetni meni.");
                             Console.ReadKey();
                             return;
