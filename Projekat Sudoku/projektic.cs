@@ -323,8 +323,8 @@ namespace Projekat_Sudoku
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Cestitamo. Uspesan zavrsetak igre!");
                 TimeSpan ts = vreme.Elapsed;
-                string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-                Console.WriteLine("Vreme igre: " + elapsedTime);//ispisuje se vreme
+                string elapsedvreme = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+                Console.WriteLine("Vreme igre: " + elapsedvreme);//ispisuje se vreme
                 Console.WriteLine("Pritisnite bilo koje dugme kako biste se vratili na pocetni meni.");
                 Console.ReadKey();
                 return true;
@@ -466,8 +466,8 @@ namespace Projekat_Sudoku
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("Cestitamo. Uspesan zavrsetak igre!");
                             TimeSpan ts = vreme.Elapsed;
-                            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-                            Console.WriteLine("Vreme igre: " + elapsedTime);
+                            string elapsedvreme = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
+                            Console.WriteLine("Vreme igre: " + elapsedvreme);
                             Console.WriteLine("Pritisnite bilo koje dugme kako biste se vratili na pocetni meni.");
                             Console.ReadKey();
                             return;
