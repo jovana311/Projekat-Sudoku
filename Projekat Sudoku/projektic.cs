@@ -94,7 +94,7 @@ namespace Projekat_Sudoku
         }
         static void Ispis(int[,] tabla, bool[,] otvoreno, int srca, int hint, string tezina, int maxhint,Stopwatch vreme)
         {
-            
+            //izgled table
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write("\n   Tezina: ");
@@ -313,16 +313,16 @@ namespace Projekat_Sudoku
 
         static bool proverakraja(bool[,] otvoreno, Stopwatch vreme)
         {
-            if (imaPraznihMesta(otvoreno))
+            if (imaPraznihMesta(otvoreno))//ako postoje prazna mesta nije kraj
             {
                 return false;
             }
-            else
+            else//ako ne postoje prazna mesta kraj
             {
                 vreme.Stop();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Cestitamo. Uspesan zavrsetak igre!");
-                Console.WriteLine("Vreme igre: " + vreme.Elapsed);
+                Console.WriteLine("Vreme igre: " + vreme.Elapsed);//ispisuje se vreme
                 Console.WriteLine("Pritisnite bilo koje dugme kako biste se vratili na pocetni meni.");
                 Console.ReadKey();
                 return true;
@@ -353,13 +353,12 @@ namespace Projekat_Sudoku
                     Random r = new Random();
                     int i = r.Next(0, 9);
                     int j = r.Next(0, 9);
-                    while (otvoreno[i, j])//ako je polje vec otvoreno, otvara se novo
+                    while (otvoreno[i, j])//ako je polje vec otvoreno, trazi se polje koje nije 
                     {
                         r = new Random();
                         i = r.Next(0, 9);
                         j = r.Next(0, 9);
                     }
-
                     otvoreno[i, j] = true;
                     hint--;
                     char p = ' ';
@@ -382,7 +381,7 @@ namespace Projekat_Sudoku
                 }
                 else
                 {
-                    Console.WriteLine("Nemate hintova na raspolaganju!");
+                    Console.WriteLine("Nemate hintova na raspolaganju!");//nema hintova - povratak na unos
                     System.Threading.Thread.Sleep(1700);
                     Ispis(tabla, otvoreno, srca, hint, tezina, maxhint,vreme);
                     goto unos;
@@ -417,11 +416,9 @@ namespace Projekat_Sudoku
                     {
                         goto unos;
                     }
-                }
-              
-                
+                } 
             }
-            else { 
+            else { //uneti su polje i vrednost
           
              char[] koordinate = uneto[0].ToCharArray();
 
@@ -429,17 +426,17 @@ namespace Projekat_Sudoku
                 int j; //kolona (slovo)
                 int broj;
                 if (koordinate.Length > 2 || !int.TryParse(koordinate[1].ToString(), out i) || !slova.ContainsKey(koordinate[0]) || (i > 9 || i < 0) ||!int.TryParse(uneto[1], out broj) || broj >= 10) //provera unosa
-             {
+                {
                     Console.Write("Pogresan unos, unesite ponovo: ");
 
                     goto unos;
                 }
                 j = slova[koordinate[0]]; //kolona
-                i = i - 1;
+                i = i - 1;//vrsta
 
 
 
-                if (otvoreno[i, j])
+                if (otvoreno[i, j])// ako je uneto polje vec otvoreno vraca na unos
                 {
                     Console.WriteLine("To polje je vec otvoreno. Ukucajte sledece.");
                     System.Threading.Thread.Sleep(1700);
@@ -450,7 +447,7 @@ namespace Projekat_Sudoku
 
                 else
                 {
-                    if (tabla[i, j] == int.Parse(uneto[1]))
+                    if (tabla[i, j] == int.Parse(uneto[1]))// ako je uneto tacno polje otvara se
                     {
                         otvoreno[i, j] = true;
                         Console.WriteLine("Tacno.");
@@ -472,17 +469,17 @@ namespace Projekat_Sudoku
                             return;
                         }
                     }
-                    else
+                    else//ako je uneto polje pogresno
                     {
                         if (srca > 0)
                         {
-                            srca--;
+                            srca--; //oduzima se srce
                             Console.WriteLine("Pogresno.");
                             System.Threading.Thread.Sleep(1700);
                             Console.Clear();
                             Ispis(tabla, otvoreno, srca, hint, tezina, maxhint,vreme);
                         }
-                        else
+                        else//ako nema vise srca kraj
                         {
                             Console.WriteLine("Pogresno." + " \n  Nemate vise zivota. Igra zavrsena");
 
@@ -496,7 +493,7 @@ namespace Projekat_Sudoku
                                 odgovor = Console.ReadLine();
                             }
 
-                            if (odgovor.Equals("da"))
+                            if (odgovor.Equals("da"))//ispis celog sudoka
                             {
                                 Console.Clear();
 
