@@ -311,6 +311,24 @@ namespace Projekat_Sudoku
 
         }
 
+        static bool proverakraja(bool[,] otvoreno, Stopwatch vreme)
+        {
+            if (imaPraznihMesta(otvoreno))
+            {
+                return false;
+            }
+            else
+            {
+                vreme.Stop();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Cestitamo. Uspesan zavrsetak igre!");
+                Console.WriteLine("Vreme igre: " + vreme.Elapsed);
+                Console.WriteLine("Pritisnite bilo koje dugme kako biste se vratili na pocetni meni.");
+                Console.ReadKey();
+                return true;
+            }
+        }
+
         static void Upis(int[,] tabla, bool[,] otvoreno, int srca, int hint, string tezina, int maxhint, Stopwatch vreme)
         {
 
@@ -330,12 +348,12 @@ namespace Projekat_Sudoku
 
             if (uneto[0]=="HINT")
             {
-                if(hint>0)
+                if(hint>0)//ako ima hintova otvara se random polje 
                 {
                     Random r = new Random();
                     int i = r.Next(0, 9);
                     int j = r.Next(0, 9);
-                    while (otvoreno[i, j])
+                    while (otvoreno[i, j])//ako je polje vec otvoreno, otvara se novo
                     {
                         r = new Random();
                         i = r.Next(0, 9);
@@ -345,7 +363,7 @@ namespace Projekat_Sudoku
                     otvoreno[i, j] = true;
                     hint--;
                     char p = ' ';
-                    foreach (KeyValuePair<char,int> par in slova)
+                    foreach (KeyValuePair<char,int> par in slova)//pronalazimo koje polje ce otvoriti hint
                     {
                         if (slova[par.Key]==j)
                         {
@@ -357,7 +375,10 @@ namespace Projekat_Sudoku
 
                     System.Threading.Thread.Sleep(3000);
                     Ispis(tabla, otvoreno, srca, hint, tezina, maxhint,vreme);
-                    goto unos;
+                    if (!proverakraja(otvoreno, vreme))
+                    {
+                        goto unos;
+                    }
                 }
                 else
                 {
@@ -391,8 +412,11 @@ namespace Projekat_Sudoku
                 else {
                     Console.ForegroundColor = ConsoleColor.Gray;
                     Console.WriteLine("Nastavljamo igru. Unesite sledece polje.");
-               
-                    goto unos; 
+
+                    if (!proverakraja(otvoreno, vreme))
+                    {
+                        goto unos;
+                    }
                 }
               
                 
@@ -400,17 +424,18 @@ namespace Projekat_Sudoku
             else { 
           
              char[] koordinate = uneto[0].ToCharArray();
-              
-              int i = int.Parse(koordinate[1].ToString())-1; //vrsta
-              int j ;
-              int broj;
-            if (koordinate.Length > 2 || !slova.ContainsKey(koordinate[0]) || (i>9 || i <0)  || !int.TryParse(uneto[1], out broj) || broj >=10) //provera unosa
+
+                int i; //vrsta (broj)
+                int j; //kolona (slovo)
+                int broj;
+                if (koordinate.Length > 2 || !int.TryParse(koordinate[1].ToString(), out i) || !slova.ContainsKey(koordinate[0]) || (i > 9 || i < 0) ||!int.TryParse(uneto[1], out broj) || broj >= 10) //provera unosa
              {
-                Console.Write("Pogresan unos, unesite ponovo: ");
+                    Console.Write("Pogresan unos, unesite ponovo: ");
 
                     goto unos;
-             }
-            j = slova[koordinate[0]]; //kolona
+                }
+                j = slova[koordinate[0]]; //kolona
+                i = i - 1;
 
 
 
@@ -432,7 +457,7 @@ namespace Projekat_Sudoku
                         System.Threading.Thread.Sleep(1700);
                         Console.Clear();
                         Ispis(tabla, otvoreno, srca, hint, tezina, maxhint,vreme);
-                        if (imaPraznihMesta(otvoreno))
+                        if (!proverakraja(otvoreno, vreme))
                         {
                             goto unos;
                         }
